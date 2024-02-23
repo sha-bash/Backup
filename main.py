@@ -1,6 +1,6 @@
 from Vk.vk_apis import VK_API_Client
 from Yandex_Disk.yandex_disk_api import Yandex_Disk_API_Client
-from tqdm import tqdm
+import tqdm
 import time
 
 def backup(user_id, token_yandex):

@@ -52,6 +52,7 @@ class Yandex_Disk_API_Client:
         headers = self.headers
         folder_path = self.get_info()
         upload_response = None
+        photos_info = []
         for photo_name, photo_url in zip(*self._generate_photo_name()):
             # Скачиваем фото по URL и сохраняем с именем photo_name
             photo_response = requests.get(photo_url)
@@ -66,7 +67,19 @@ class Yandex_Disk_API_Client:
             with open(f'logs/temp/{photo_name}', 'rb') as uploaded_file:
                 files = {'file': (f'logs/temp/{photo_name}', uploaded_file)}
                 upload_response = requests.put(current_url_upload, files=files)
+            
+            photos_info.append({
+            "file_name": photo_name,
+            "size": "S"
+        })
+
+    # Сохраняем информацию о загруженных фотографиях в json-файл
+        with open('logs/photos_info.json', 'w') as json_file:
+            json.dump(photos_info, json_file, ensure_ascii=False, indent=4)
+
         return upload_response.status_code
+        
+
 
 
 
