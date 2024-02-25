@@ -5,7 +5,7 @@ import json
 
 class Yandex_Disk_API_Client:
     API_BASE_URL = 'https://cloud-api.yandex.net/v1/disk'
-    token_yandex = 'Токен Яндекс.Диск'
+    token_yandex = 'y0_AgAAAAAZ5do0AAtONwAAAAD7Rx60AABq6PfpXohMY6DPhtYqeLRrX3jzBw'
     
     def __init__(self, token_yandex):      
         self.token = token_yandex
@@ -40,20 +40,22 @@ class Yandex_Disk_API_Client:
             profile_photos_data = json.load(json_file)
         photo_names = []
         photo_urls =[]
+        photo_types = []
         for photo_data in profile_photos_data:
-            photo_name = f"{photo_data['likes']}_{photo_data['date']}"
+            photo_name = f"{photo_data['likes']}_{photo_data['date']}.jpeg"
             photo_url = photo_data['url']
+            photo_type = photo_data['type']
             photo_names.append(photo_name)
-            photo_urls.append(photo_url)      
-        return photo_names, photo_urls
+            photo_urls.append(photo_url)
+            photo_types.append(photo_type)   
+        return photo_names, photo_urls, photo_types
     
     def save_photo(self):
-        #params = self.get_common_params()
         headers = self.headers
         folder_path = self.get_info()
         upload_response = None
         photos_info = []
-        for photo_name, photo_url in zip(*self._generate_photo_name()):
+        for photo_name, photo_url, photo_type in zip(*self._generate_photo_name()):
             # Скачиваем фото по URL и сохраняем с именем photo_name
             photo_response = requests.get(photo_url)
             with open(f'logs/temp/{photo_name}', 'wb') as file:
@@ -69,18 +71,16 @@ class Yandex_Disk_API_Client:
                 upload_response = requests.put(current_url_upload, files=files)
             
             photos_info.append({
-            "file_name": photo_name,
-            "size": "S"
-        })
+                "file_name": photo_name,
+                "size": photo_type
+            })
 
     # Сохраняем информацию о загруженных фотографиях в json-файл
-        with open('logs/photos_info.json', 'w') as json_file:
-            json.dump(photos_info, json_file, ensure_ascii=False, indent=4)
+            with open('logs/photos_info.json', 'w') as json_file:
+                json.dump(photos_info, json_file, ensure_ascii=False, indent=4)
 
         return upload_response.status_code
         
-
-
 
 
 if __name__ == '__main__':

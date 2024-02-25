@@ -1,11 +1,11 @@
 import requests
 import json
 import pprint
-from datetime import datetime
+from datetime import datetime, date
 
 
 class VK_API_Client:
-    SERVICE_TOKEN = 'Сервисный токен'
+    SERVICE_TOKEN = 'dfcae5a2dfcae5a2dfcae5a2c4dcddac2dddfcadfcae5a2ba0492a0ee19fa635ca6d902'
     API_BASE_URL = 'https://api.vk.com/method/'
     API_VERSION = '5.131'
     
@@ -29,9 +29,11 @@ class VK_API_Client:
             photos_data = []
             data = response.json().get('response', {}).get('items', [])
             for item in data:
+                date_time = datetime.fromtimestamp(item.get('date', 0))
+                formatted_date = date_time.strftime('%Y-%m-%d')
                 photo_info = {
                     'likes': item.get('likes', {}).get('count', ''),
-                    'date': item.get('date', 0),
+                    'date': formatted_date,
                     'type': item.get('sizes', [])[0].get('type', ''),
                     'url': item.get('sizes', [])[0].get('url', '')
                 }
@@ -42,38 +44,6 @@ class VK_API_Client:
             return json_file 
         else:
             return f"Ошибка: {response.status_code}"
-        
-    def get_max_size_photo(self):
-        params = self._get_common_params()
-        params.update({'owner_id': self.user_id, 'album_id': 'profile', 'extended': '1', 'photo_sizes': '1'})
-        response = requests.get(self._build_reqwest('photos.get'), params=params)
-        if response.status_code == 200:
-            photos_data = []
-            data = response.json().get('response', {}).get('items', [])
-            max_size_photo = {}
-            for item in data:
-                photo_info = {
-                    'likes': item.get('likes', {}).get('count', ''),
-                    'date': item.get('date', 0),
-                    'type': item.get('sizes', [])[0].get('type', ''),
-                    'url': item.get('sizes', [])[0].get('url', '')
-                }
-                photos_data.append(photo_info)
-                max_size = 0
-                photos_info = {}
-                for size in item['sizes']:
-                    if size['height'] >= max_size:
-                        max_size = size['height']
-                if photo_info['likes'] not in max_size_photo.keys():
-                    max_size_photo[photo_info['likes']] = photo_info['url']
-                    photos_info['file_name'] = f"{photo_info['likes']}.jpg"
-                else:
-                    max_size_photo[f"{photo_info['likes']} + {photo_info['date']}"] = photo_info['url']
-                    photos_info['file_name'] = f"{photo_info['likes']}+{photo_info['date']}.jpg"
-        with open('VK/photos_data_max_size.json', 'w') as json_file:
-            json.dump(photos_data, json_file, ensure_ascii=False, indent=4)
-        return json_file
-
 
     def _log_action(self, action):
         with open('logs/vk_log.txt', 'a', encoding='UTF-8') as logfile:
@@ -81,5 +51,5 @@ class VK_API_Client:
 
 
 if __name__ == '__main__':
-    vk_client = VK_API_Client('Ваш user_id')
+    vk_client = VK_API_Client('261235804')
     pprint.pprint(vk_client.get_photo())

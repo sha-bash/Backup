@@ -1,3 +1,5 @@
-requests
-json
-datetime
+requests==
+json==
+datetime==
+tqdm== 4.66.2
+time==
