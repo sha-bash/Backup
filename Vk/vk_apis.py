@@ -5,7 +5,7 @@ from datetime import datetime
 
 
 class VK_API_Client:
-    SERVICE_TOKEN = 'dfcae5a2dfcae5a2dfcae5a2c4dcddac2dddfcadfcae5a2ba0492a0ee19fa635ca6d902'
+    SERVICE_TOKEN = 'Сервисный ключ доступа'
     API_BASE_URL = 'https://api.vk.com/method/'
     API_VERSION = '5.131'
     

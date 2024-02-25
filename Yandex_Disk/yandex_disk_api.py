@@ -5,7 +5,7 @@ import json
 
 class Yandex_Disk_API_Client:
     API_BASE_URL = 'https://cloud-api.yandex.net/v1/disk'
-    token_yandex = 'y0_AgAAAAAZ5do0AAtONwAAAAD7Rx60AABq6PfpXohMY6DPhtYqeLRrX3jzBw'
+    token_yandex = 'токен'
     
     def __init__(self, token_yandex):      
         self.token = token_yandex
@@ -69,10 +69,9 @@ class Yandex_Disk_API_Client:
             with open(f'logs/temp/{photo_name}', 'rb') as uploaded_file:
                 files = {'file': (f'logs/temp/{photo_name}', uploaded_file)}
                 upload_response = requests.put(current_url_upload, files=files)
-            
             photos_info.append({
                 "file_name": photo_name,
-                "size": photo_type
+                "size": photo_type,
             })
 
     # Сохраняем информацию о загруженных фотографиях в json-файл
