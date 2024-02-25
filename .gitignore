@@ -2,3 +2,5 @@ private
 logs/*.txt
 logs/temp
 Vk/*.json
+backup
+requiremеnts.py

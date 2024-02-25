@@ -1,7 +1,7 @@
 import requests
 import json
 import pprint
-from datetime import datetime, date
+from datetime import datetime
 
 
 class VK_API_Client:
