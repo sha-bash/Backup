@@ -1,6 +1,6 @@
 private
 logs/*.txt
 logs/temp
-Vk/*.json
+logs/photos_data.json
 backup
-requiremеnts.py
+
