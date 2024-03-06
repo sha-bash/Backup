@@ -1,7 +1,7 @@
-import requests
-import pprint
 import json
 import os
+import pprint
+import requests
 
 
 class Yandex_Disk_API_Client:
@@ -88,7 +88,7 @@ class Yandex_Disk_API_Client:
             if upload_response.status_code == 201:
                 os.remove(f'logs/temp/{photo_name}')
         
-        return upload_response.status_code
+        return 'Загрузка фотографий на Яндекс.Диск завершена.'
         
 
 if __name__ == '__main__':

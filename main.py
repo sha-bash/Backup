@@ -1,9 +1,10 @@
-from Vk.vk_apis import VK_API_Client
-from Yandex_Disk.yandex_disk_api import Yandex_Disk_API_Client
-from tqdm import tqdm
-import time
 import os
+import time
 import configparser
+from tqdm import tqdm
+from Vk.vk_apis import VK_API_Client, VK_Authenticator
+from Yandex_Disk.yandex_disk_api import Yandex_Disk_API_Client
+
 
 # Функция для проверки наличия файла config.ini
 def check_config_exists():
@@ -56,11 +57,11 @@ def backup():
 
     print('Загрузка фотографий из VK...')
     vk_client.get_photo()
-    print('Загрузка фотографий завершена.')
+    #print('Загрузка фотографий завершена.')
 
     print('Загрузка фотографий на Яндекс.Диск...')
     yandex_disk_client.save_photo()
-    print('Загрузка фотографий на Яндекс.Диск завершена.')
+    #print('Загрузка фотографий на Яндекс.Диск завершена.')
 
     # Определяем количество загруженных фотографий для прогресс-бара
     occurrences = count_file_name_occurrences()

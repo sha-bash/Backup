@@ -1,6 +1,5 @@
 private
 logs/*.txt
-logs/temp
 logs/photos_data.json
 backup
 
